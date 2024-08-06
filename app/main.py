@@ -18,6 +18,8 @@ async def process_image_endpoint(file: UploadFile = File(...)):
     s = 5
     roi_th = roi_th[s: M - s, s: N - s]
     texts = apply_ocr_and_extract_text(roi_th)
+    if len(texts) == 0:
+        return JSONResponse(content={"error": "No text detected in the image."})
     return JSONResponse(content={"texts": texts})
 
 if __name__ == "__main__":
